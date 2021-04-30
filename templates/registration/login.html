@@ -1,0 +1,69 @@
+{% extends 'base.html' %} 
+{% load static %} 
+{% block title %}Log In{% endblock %} 
+
+{% block head %} 
+  <link rel="stylesheet" href="{% static 'css/signup.css' %}">
+  <style>
+    body {
+      background-image: url("{% static 'images/push-up-log-in.jpg' %}");
+      background-repeat: no-repeat;
+      background-size: 100%;
+    }
+  </style>
+{% endblock %} 
+
+{% block header %}
+{% endblock %} 
+
+{% block content %}
+<div class="text-center">
+  <h1>Welcome to Fitness Tracker</h1>
+</div>
+
+
+<div class="row">
+  <div class="column">
+    <form method="POST">
+      {% csrf_token %}
+    
+      <table>
+        <th colspan="2">
+          <h2>Returning User?</h2>
+        </th>
+        <tr>
+          <td>Username</td>
+          <td>{{ form.username }}</td>
+        </tr>
+        <tr>
+          <td>Password</td>
+          <td>{{ form.password }}</td>
+        </tr>
+        <tr>
+          <td colspan="2"><button class="btn btn-primary" type="submit">Log In</button></td>
+          <td class="float-right"></td>
+        </tr>
+      </table>
+    </form>
+  </div>
+  
+  <div class="column">
+    <table>
+      <th>
+        <h2>New User?</h2>
+      </th>
+      <tr>
+        <td><a class="btn btn-primary float-right" href="{% url 'signup' %}">Sign Up</a></td>
+      </tr>
+    </table>
+  </div>>
+
+</div>
+
+
+
+
+{% endblock %} 
+
+{% block footer %} 
+{% endblock %}

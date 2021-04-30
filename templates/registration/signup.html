@@ -1,0 +1,59 @@
+{% extends 'base.html' %} 
+{% load static %}
+
+{% block title %}Sign Up{% endblock %} 
+
+{% block head %} 
+  <link rel="stylesheet" href="{% static 'css/signup.css' %}">
+  <style>
+    body {
+      background-image: url("{% static 'images/ready-to-start.jpg' %}");
+      background-repeat: no-repeat;
+      background-size: 100%;
+    }
+  </style>
+{% endblock %} 
+
+{% block header %}
+{% endblock %} 
+
+{% block content %}
+
+<form method="POST">
+    {% csrf_token %}
+    <table class="table table-borderless">
+      <th colspan="4"><h2>Ready to get started?</h2></th>
+      {% for field in form %} 
+      {% ifnotequal field.label_tag "Email address" %}
+      <tr>
+        <td>{{ field.label_tag }}</td>
+        <td>{{ field }}</td>
+        <td>
+          {% if field.help_text %} 
+            <small style="color: gray;">{{ field.help_text }}</small>
+          {% else %} 
+            &nbsp;
+          {% endif %} 
+        </td>
+        <td>
+          {% if field.errors %}
+            {% for error in field.errors %} 
+             <p style="color: red;">{{ error }}</p>
+            {% endfor %}
+          {% endif %} 
+          
+
+        </td>
+      </tr>
+      {% endifnotequal %}
+      {% endfor %}
+    </table>
+    <button type="submit">Sign up</button>
+</form>
+
+
+
+{% endblock %} 
+
+{% block footer %} 
+{% endblock %}

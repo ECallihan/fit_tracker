@@ -1,0 +1,20 @@
+table {
+  background-color: rgb(255, 255, 255);
+  margin: 10px;
+  /* width: min-content; */
+}
+th {
+  align-content: center;
+  text-align: center;
+}
+td {
+  margin: auto;
+  align-items: center;
+  vertical-align: middle;
+  background-color: rgb(255, 255, 255);
+}
+body {
+  background-image: url("{% media 'images/ready-to-start.jpg' %}");
+  background-repeat: no-repeat;
+  background-size: 100%;
+}

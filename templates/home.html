@@ -1,0 +1,23 @@
+{% extends 'base.html' %} 
+
+{% block title %}Welcome{% endblock %} 
+
+{% block head %} 
+  {% if not user.is_authenticated %} 
+    <meta http-equiv="Refresh" content="0; url='{% url 'login' %}'" />
+  {% endif %} 
+  
+{% endblock %} 
+
+{% block header %}
+{% endblock %} 
+
+{% block content %}
+
+  <h2 id="user_greet">Hello {{ user.username }}!</h2>
+  
+
+{% endblock %} 
+
+{% block footer %} 
+{% endblock %}
