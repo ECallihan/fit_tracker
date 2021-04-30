@@ -15,6 +15,7 @@
 {% block content %}
 
   <h2 id="user_greet">Hello {{ user.username }}!</h2>
+  <p><a class="btn btn-primary" href="{% url 'logout' %}">Logout</a></p>
   
 
 {% endblock %} 

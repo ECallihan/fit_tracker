@@ -1,0 +1,50 @@
+{% extends 'base.html' %} 
+
+{% block title %}Add An Exercise{% endblock %} 
+
+{% block head %} 
+<script type="text/javascript">
+  
+</script>
+{% endblock %} 
+
+{% block header %}
+{% endblock %} 
+
+{% block content %}
+
+
+
+<h1>New Exercise</h1>
+<form action="" method="POST">
+  {% csrf_token %} 
+  Exercise Name: 
+  <input type="text" name="name"/><br/>
+  Exercise Type: 
+  <input type="hidden" name="strength" value="0">
+  <input type="checkbox" id="strength" name="strength" value="1">
+  <label for="strength">Strength</label>
+  <input type="hidden" name="cardio" value="0">
+  <input type="checkbox" name="cardio" value="1">
+  <label for="cardio">Cardio</label>
+  <input type="hidden" name="flexibility" value="0">
+  <input type="checkbox" name="flexibility" value="1">
+  <label for="flexibility">Flexibility</label><br/>
+  Exercise Metrics:
+  <input type="hidden" name="reps" value="0">
+  <input type="checkbox" name="reps" id="reps" value="1">
+  <label for="reps">Reps</label>
+  <input type="hidden" name="duration" value="0">
+  <input type="checkbox" name="duration" id="duration" value="1">
+  <label for="duration">Duration</label>
+  <input type="hidden" name="resistance" value="0">
+  <input type="checkbox" name="resistance" id="resistance" value="1">
+  <label for="resistance">Resistance</label><br/><br/>
+  <button class="btn btn-primary" type="submit" id="sendform">Submit</button>
+</form>
+
+
+{% endblock %} 
+
+{% block footer %} 
+{% endblock %}
