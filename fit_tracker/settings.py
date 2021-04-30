@@ -55,7 +55,7 @@ ROOT_URLCONF = 'fit_tracker.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR.joinpath('templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -77,15 +77,15 @@ WSGI_APPLICATION = 'fit_tracker.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'pitch_db',
-        'USER': 'admin',
-        'PASSWORD': 'admin',
+        'NAME': 'fit_tracker',
+        'USER': 'web_admin',
+        'PASSWORD': 'pineapple9',
         'HOST': '127.0.0.1',
         'PORT': '5432'
     }
 }
 
-
+AUTH_USER_MODEL = 'accounts.user'
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
 
@@ -123,4 +123,12 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
-AUTH_USER_MODEL = 'accounts.user'
+STATICFILES_DIRS = [
+    BASE_DIR.joinpath('static')
+]
+MEDIA_ROOT = BASE_DIR.joinpath('media')
+MEDIA_URL = 'media/'
+
+
+LOGIN_REDIRECT_URL = 'home'
+LOGOUT_REDIRECT_URL = 'home'
