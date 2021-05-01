@@ -3,13 +3,15 @@ from django.conf import settings
 
 import datetime
 
+from django.http import request
+
 
 # Create your models here.
 
 
 class Technique(models.Model):
     tech_id = models.AutoField(primary_key=True)
-    technique_name = models.TextField()
+    technique_name = models.CharField(max_length=100)
     user_id = models.ForeignKey(
         settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     for_strength = models.BooleanField()

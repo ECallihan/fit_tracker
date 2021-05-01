@@ -3,7 +3,7 @@ from .models import Technique, Entry, Exercise, Exercise_Set
 from django import forms
 
 
-class TechniqueForm(forms):
+class TechniqueForm(forms.ModelForm):
     class Meta:
         model = Technique
         fields = ('user_id', 'technique_name', 'for_strength',

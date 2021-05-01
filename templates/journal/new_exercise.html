@@ -1,0 +1,47 @@
+{% extends 'base.html' %} 
+
+{% block title %}Add An Exercise{% endblock %} 
+
+{% block head %} 
+<script type="text/javascript">
+  
+</script>
+{% endblock %} 
+
+{% block header %}
+{% endblock %} 
+
+{% block content %}
+
+
+
+<h1>New Exercise</h1>
+<form action="" method="POST">
+  {% csrf_token %} 
+  name: {{ form.technique_name }}
+  strength: {{ form.for_strength }}
+  cardio: {{ form.for_cardio }}
+  flexibility: {{ form.for_flexibility }}
+  time: {{ form.has_time }}
+  resistance: {{ form.has_resistance }}
+  reps: {{ form.has_reps }}
+  <button class="btn btn-primary" type="submit" id="sendform">Submit</button> 
+</form>
+
+<p>
+  {{ message }}
+</p>
+<p>
+  your available moves:
+</p>
+<ul>
+  {% for move in my_moves %}
+    <li>{{ move }}</li>
+  {% endfor %} 
+</ul>
+
+
+{% endblock %} 
+
+{% block footer %} 
+{% endblock %}
