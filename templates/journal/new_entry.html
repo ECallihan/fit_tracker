@@ -10,7 +10,15 @@
 {% endblock %} 
 
 {% block content %}
+<h1>New Journal Entry</h1>
+<form action="{% url 'add_details' %}" method="POST">
+  {% csrf_token %}
+  Entry Date: {{ form.entry_date }}<br/>
+  Entry Notes: {{ form.entry_notes }}<br/>
+  <button class="btn btn-primary" type="submit" id="sendform">Submit</button>
 
+
+</form>
 
 
 {% endblock %} 

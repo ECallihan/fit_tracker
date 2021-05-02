@@ -1,0 +1,107 @@
+{% extends 'base.html' %} 
+{% load static %} 
+
+{% block title %}{% endblock %} 
+
+{% block head %} 
+<script src="{% static 'js/dynamic_forms.js' %}" type="text/javascript"></script>
+<script src="{% static 'js/functions.js' %}" type="text/javascript"></script>
+{% endblock %} 
+
+{% block header %}
+{% endblock %} 
+
+{% block content %}
+<form class="form-horizontal" onsubmit="numberTechniques()" method="POST" action="">
+  {% csrf_token %} 
+<div class="row spacer">
+  <div class="col-2">
+    <label>{{ entryform.entry_date.label }}</label>
+  </div>
+  <div class="col-4">
+    <div class="input-group">
+      {{ entryform.entry_date }}
+    </div>
+  </div>
+  <div class="row spacer">
+    <div class="col-2">
+      <label>{{ entryform.entry_notes.label }}</label>
+    </div>
+    <div class="col-4">
+      <div class="input-group">
+        {{ entryform.entry_notes }}
+      </div>
+    </div>
+</div>
+{{ exercise_set_formset.management_form }}
+
+{% for form in exercise_set_formset %}
+
+<div class="row form-row spacer">
+  <div class="col-2">
+    <label for="techniques">Technique {{ forloop.counter0 }}</label>
+  </div>
+  <div class="col-2">
+    <label>{{ form.set_number.label }}</label>
+  </div>
+  <div class="col-2">
+    <label>{{ form.set_count.label }}</label>
+  </div>
+  <div class="col-2">
+    <label>{{ form.rep_count.label }}</label>
+  </div>
+  <div class="col-2">
+    <label>{{ form.weight.label }}</label>
+  </div>
+  <div class="col-2">
+    <label>{{ form.duration.label }}</label>
+  </div>
+  <!-- <div class="col-4"> -->
+    <div class="input-group">
+      <div class="col-2">
+        <select name="techniques" id="techniques">
+          {% for tech in techniques %} 
+           <option value="{{ tech.tech_id }}">{{ tech.technique_name }}</option>
+          {% endfor %}
+      </select>
+      </div>
+      <div class="col-2">
+        {{ form.set_number }}
+      </div>
+      <div class="col-2">
+        {{ form.set_count }}
+      </div>
+      <div class="col-2">
+        {{ form.rep_count }}
+      </div>
+      <div class="col-2">
+        {{ form.weight }}
+      </div>
+      <div class="col-2">
+        {{ form.duration }}
+      </div>
+      
+        
+      <div class="input-group-append">
+        <button class="btn btn-success add-form-row">+</button>
+      </div>
+    </div>
+  <!-- </div> -->
+</div>
+{% endfor %}
+<div class="row spacer">
+  <div class="col-4 offset-2">
+    <button type="submit" class="btn btn-block btn-primary">Create</button>
+  </div>
+</div>
+</form>
+<br/><br/><br/><br/>
+
+  
+  <button onclick="numberTechniques()">number them</button>
+
+
+{% endblock %} 
+
+{% block footer %} 
+{% endblock %}
