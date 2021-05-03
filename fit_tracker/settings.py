@@ -26,7 +26,7 @@ SECRET_KEY = '41qb!7ab8jwtd3_zqu7t%mukdan$tr6s+4-zt8zj!&b#8m+)w3'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', '18.222.144.137']
+ALLOWED_HOSTS = ['localhost', '18.222.144.137', 'fittracker.ddns.net']
 
 
 # Application definition
