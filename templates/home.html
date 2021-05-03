@@ -1,22 +1,135 @@
 {% extends 'base.html' %} 
+{% load static %}
 
 {% block title %}Welcome{% endblock %} 
 
 {% block head %} 
-  {% if not user.is_authenticated %} 
-    <meta http-equiv="Refresh" content="0; url='{% url 'login' %}'" />
-  {% endif %} 
   
+<link rel="stylesheet" href="{% static 'css/home.css' %}">
+<style>
+  body {
+    background-image: url("{% static 'images/notebook.jpg' %}");
+    background-repeat: no-repeat;
+    background-size: 100%;
+  }
+</style>
 {% endblock %} 
 
 {% block header %}
 {% endblock %} 
 
 {% block content %}
-
-  <h2 id="user_greet">Hello {{ user.username }}!</h2>
-  <p><a class="btn btn-primary" href="{% url 'logout' %}">Logout</a></p>
+  <div class="text-center">
+    <h2 id="user_greet" class="">Hello {{ user.username }}! Welcome to your fitness journal.</h2>
+  </div>
   
+  
+  <br>
+  <div class="overflow-auto">
+    
+    <br><br>
+
+    <div class="scrollable border border-dark">
+      
+      {% for entry in entries %}
+    <div class="card p-3">
+      <div class="card-body">
+        <h5 class="card-title">Date: {{ entry.entry_date }}</h5>
+        <table class="table">
+          <tr>
+            <th>Technique</th>
+            <th>Set Number</th>
+            <th>Set Count</th>
+            <th>Rep Count</th>
+            <th>Weight</th>
+            <th>Time</th>
+            <th>Strength</th>
+            <th>Conditioning</th>
+          </tr>
+          {% for ex_set in exercise_sets %}
+          {% if ex_set.entry_id == entry %}
+          <tr>
+            <td>
+              {{ ex_set.technique_id.technique_name }}
+            </td>
+            <td>
+              {% if ex_set.set_number %}
+                {{ ex_set.set_number }}
+              {% else %} 
+                -
+              {% endif %}
+            </td>
+            <td>
+              {% if ex_set.set_count %}
+                {{ ex_set.set_count }}
+              {% else %}
+                - 
+              {% endif %} 
+            </td>
+            <td>
+              {% if ex_set.rep_count %} 
+                {{ ex_set.rep_count }}
+              {% else %} 
+                - 
+              {% endif %} 
+            </td>
+            <td>
+              {% if ex_set.weight %}
+                {{ ex_set.weight }}
+              {% else %} 
+                - 
+              {% endif %}
+            </td>
+            <td>
+              {% if ex_set.duration %} 
+                {{ ex_set.duration }}
+              {% else %} 
+                - 
+              {% endif %} 
+            </td>
+            <td>
+              {% if ex_set.technique_id.for_strength %} 
+                X
+              {% else %} 
+                - 
+              {% endif %} 
+            </td>
+            <td>
+              {% if ex_set.technique_id.for_cardio %} 
+                X
+              {% else %} 
+                - 
+              {% endif %} 
+            </td>
+          </tr>
+          {% endif %} 
+          {% endfor %}
+        </table>
+      </div>
+      
+        <div class="btn-group" role="group">
+          <form action="{% url 'delete_entry' pk=entry.entry_id %}" method="POST">
+            {% csrf_token %}
+            <input type="submit" class="btn btn-primary" value="Delete">
+          </form>
+          <form action="{% url 'edit_entry' pk=entry.entry_id %}" method="POST">
+            {% csrf_token %}
+            <input type="submit" class="btn btn-primary" value="Edit">
+          </form>
+          
+          <!-- <input style="margin: 20px; padding: 10px;" type="button" class="btn btn-primary" id="edit">Edit</button>
+          <button style="margin: 20px; padding: 10px;" type="button" class="btn btn-primary" id="delete">Delete</button> -->
+        </div>
+        
+    </div>
+    {% empty %} 
+      <div class="text-center bg-white">
+        Select <i>Create Exercise</i> or <i>New Entry</i> to get started.
+      </div>
+      
+    {% endfor %}
+    </div>
+  </div>
 
 {% endblock %} 
 

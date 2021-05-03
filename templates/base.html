@@ -25,7 +25,7 @@
 
   <header>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-      <a class="navbar-brand" href="{% url 'home' %}">My Journal</a>
+      <a class="navbar-brand{% if not user.is_authenticated %} disabled{% endif %}" href="{% url 'home' %}">My Journal</a>
       <button
         class="navbar-toggler"
         type="button"
@@ -42,31 +42,16 @@
         <ul class="navbar-nav mr-auto">
           
           <li class="nav-item">
-            <a class="nav-link" href="{% url 'new_exercise' %}">Create Exercise</a>
+            <a class="nav-link{% if not user.is_authenticated %} disabled{% endif %}" href="{% url 'new_exercise' %}">Create Exercise</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="{% url 'entry' %}">New Entry</a>
+            <a class="nav-link{% if not user.is_authenticated %} disabled{% endif %}" href="{% url 'entry' %}">New Entry</a>
           </li>
-          <li class="nav-item dropdown">
-            <a
-              class="nav-link dropdown-toggle"
-              href="#"
-              id="navbarDropdown"
-              role="button"
-              data-toggle="dropdown"
-              aria-haspopup="true"
-              aria-expanded="false"
-            >
-              Dropdown
-            </a>
-            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <a class="dropdown-item" href="#">Action</a>
-              <a class="dropdown-item" href="#">Another action</a>
-              <div class="dropdown-divider"></div>
-              <a class="dropdown-item" href="#">Something else here</a>
-            </div>
+          {% if user.is_authenticated %} 
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'logout' %}">Logout</a>
           </li>
-          
+          {% endif %}
         </ul>
       </div>
     </nav>

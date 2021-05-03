@@ -39,7 +39,7 @@
 
 <div class="row form-row spacer">
   <div class="col-2">
-    <label for="techniques">Technique {{ forloop.counter0 }}</label>
+    <label for="techniques">Technique</label>
   </div>
   <div class="col-2">
     <label>{{ form.set_number.label }}</label>
@@ -61,6 +61,7 @@
       <div class="col-2">
         <select name="techniques" id="techniques">
           {% for tech in techniques %} 
+          
            <option value="{{ tech.tech_id }}">{{ tech.technique_name }}</option>
           {% endfor %}
       </select>
@@ -97,8 +98,8 @@
 </form>
 <br/><br/><br/><br/>
 
-  
-  <button onclick="numberTechniques()">number them</button>
+  <!-- use code below to check if numberTechniques() function works properly -->
+  <!-- <button onclick="numberTechniques()">number them</button> -->
 
 
 {% endblock %} 

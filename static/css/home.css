@@ -1,0 +1,17 @@
+.scrollable {
+  overflow: auto;
+  max-height: 500px;
+  width: 950px;
+  float: right;
+  
+}
+
+input {
+  margin: 20px;
+  width: 150px;
+}
+
+#my-buttons {
+  margin: 20px;
+  width: 150px;
+}

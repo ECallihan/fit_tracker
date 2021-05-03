@@ -8,14 +8,30 @@ from .forms import EntryForm, Exercise_SetFormset, TechniqueForm
 
 
 def home(request):
-    entries = Entry.objects.all().filter(user_id=request.user.id)
+    if not request.user.is_authenticated:
+        return redirect('login')
+    entries = Entry.objects.all().filter(
+        user_id=request.user.id).order_by('entry_date')
     entry_ids = list(entries.values_list('entry_id', flat=True))
-    techniques = Technique.objects.all().filter(user_id=request.user.id)
+    techniques = Technique.objects.all().filter(user_id=request.user)
     exercise_sets = Exercise_Set.objects.all().filter(
-        exercise_set_id__in=entry_ids)
+        entry_id_id__in=entry_ids)
     return render(request, 'home.html', {'entries': entries,
                                          'techniques': techniques,
-                                         'exercise_sets': exercise_sets})
+                                         'exercise_sets': exercise_sets,
+                                         'entry_ids': entry_ids})
+
+
+def delete_entry(request, pk):
+    if request.method == 'POST':
+        Entry.objects.filter(entry_id=pk).delete()
+
+    return redirect(home)
+
+
+def edit_entry(request, pk):
+
+    return redirect(home)
 
 
 def new_exercise(request):
@@ -84,24 +100,52 @@ def create_entry_with_exercises(request):
         if entryform.is_valid() and exercise_set_formset.is_valid():
             # save the entryform first so it can be referenced by the
             # Exercise formset
+            if Entry.objects.all().filter(user_id=request.user.id).filter(entry_date=edited_post['entry_date']).exists():
+                Entry.objects.all().filter(user_id=request.user.id).filter(
+                    entry_date=edited_post['entry_date']).delete()
             entry = entryform.save()
             for i in range(len(exercise_set_formset)):
                 exercise_set = exercise_set_formset[i].save(commit=False)
                 exercise_set.entry_id = entry
                 tech_id = request.POST.get(f'techniques{i}')
-                print("The result of technique string is: " +
-                      request.POST.get(f'techniques{i}'))
                 tech = Technique.objects.get(tech_id=tech_id)
                 exercise_set.technique_id = tech
                 exercise_set.save()
-            # for form in exercise_set_formset:
-            #     # so the entry can be attatched to the set instance
-            #     exercise_set = form.save(commit=False)
-            #     exercise_set.entry_id = entry
-            #     exercise_set.technique_id = request.POST.get('techniques')
+            return redirect(home)
+    return render(request, template_name, {
+        'entryform': entryform,
+        'exercise_set_formset': exercise_set_formset,
+        'techniques': techniques,
+    })
 
-            #     # exercise_set.technique_id
-            #     exercise_set.save()
+
+def edit_entry(request, pk):
+    template_name = 'journal/entry.html'
+    if request.method == 'GET':
+        return redirect(home)
+    elif request.method == 'POST':
+        techniques = Technique.objects.all().filter(user_id=request.user.id)
+        entry_object = Entry.objects.get(entry_id=pk)
+        entry_date = entry_object['entry_date']
+        edited_post = request.POST.copy()
+        edited_post['user_id'] = request.user.id
+
+        entryform = EntryForm(edited_post)
+        exercise_set_formset = Exercise_SetFormset(request.POST)
+        if entryform.is_valid() and exercise_set_formset.is_valid():
+            # save the entryform first so it can be referenced by the
+            # Exercise formset
+            if Entry.objects.all().filter(user_id=request.user.id).filter(entry_date=edited_post['entry_date']).exists():
+                Entry.objects.all().filter(user_id=request.user.id).filter(
+                    entry_date=edited_post['entry_date']).delete()
+            entry = entryform.save()
+            for i in range(len(exercise_set_formset)):
+                exercise_set = exercise_set_formset[i].save(commit=False)
+                exercise_set.entry_id = entry
+                tech_id = request.POST.get(f'techniques{i}')
+                tech = Technique.objects.get(tech_id=tech_id)
+                exercise_set.technique_id = tech
+                exercise_set.save()
             return redirect(home)
     return render(request, template_name, {
         'entryform': entryform,
