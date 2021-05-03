@@ -6,96 +6,85 @@
 {% block head %} 
 <script src="{% static 'js/dynamic_forms.js' %}" type="text/javascript"></script>
 <script src="{% static 'js/functions.js' %}" type="text/javascript"></script>
+<link rel="stylesheet" href="{% static 'css/entry.css' %}">
+<style>
+  body {
+    background-image: url("{% static 'images/workout-whiteboard.jpg' %}");
+    background-repeat: repeat-y;
+    background-size: 100%;
+  }
+</style>
 {% endblock %} 
 
 {% block header %}
 {% endblock %} 
 
 {% block content %}
+<div class="scrollable"></div>
 <form class="form-horizontal" onsubmit="numberTechniques()" method="POST" action="">
   {% csrf_token %} 
-<div class="row spacer">
-  <div class="col-2">
-    <label>{{ entryform.entry_date.label }}</label>
-  </div>
-  <div class="col-4">
-    <div class="input-group">
-      {{ entryform.entry_date }}
-    </div>
-  </div>
-  <div class="row spacer">
-    <div class="col-2">
-      <label>{{ entryform.entry_notes.label }}</label>
-    </div>
-    <div class="col-4">
-      <div class="input-group">
-        {{ entryform.entry_notes }}
-      </div>
-    </div>
-</div>
+
+  <table class="table table-borderless">
+    <tr>
+      <th><span class="bg-white p-1">{{ entryform.entry_date.label }}</span></th>
+      <th><span class="bg-white p-1">{{ entryform.entry_notes.label }}</span></th>
+    </tr>
+    <tr>
+      <td>{{ entryform.entry_date }}</td>
+      <td>{{ entryform.entry_notes }}</td>
+    </tr>
+  </table>
+
 {{ exercise_set_formset.management_form }}
 
 {% for form in exercise_set_formset %}
 
 <div class="row form-row spacer">
-  <div class="col-2">
-    <label for="techniques">Technique</label>
-  </div>
-  <div class="col-2">
-    <label>{{ form.set_number.label }}</label>
-  </div>
-  <div class="col-2">
-    <label>{{ form.set_count.label }}</label>
-  </div>
-  <div class="col-2">
-    <label>{{ form.rep_count.label }}</label>
-  </div>
-  <div class="col-2">
-    <label>{{ form.weight.label }}</label>
-  </div>
-  <div class="col-2">
-    <label>{{ form.duration.label }}</label>
-  </div>
-  <!-- <div class="col-4"> -->
-    <div class="input-group">
-      <div class="col-2">
+
+  <table class="table table-borderless">
+    <tr>
+      <th><span class="bg-white p-1">Technique</span></th>
+      <th><span class="bg-white p-1">{{ form.set_number.label }}</span></th>
+      <th><span class="bg-white p-1">{{ form.set_count.label }}</span></th>
+      <th><span class="bg-white p-1">{{ form.rep_count.label }}</span></th>
+      <th><span class="bg-white p-1">{{ form.weight.label }}</span></th>
+      <th><span class="bg-white p-1">{{ form.duration.label }}</span></th>
+      
+    </tr>
+    <tr>
+      <td>
         <select name="techniques" id="techniques">
           {% for tech in techniques %} 
           
            <option value="{{ tech.tech_id }}">{{ tech.technique_name }}</option>
           {% endfor %}
-      </select>
-      </div>
-      <div class="col-2">
-        {{ form.set_number }}
-      </div>
-      <div class="col-2">
-        {{ form.set_count }}
-      </div>
-      <div class="col-2">
-        {{ form.rep_count }}
-      </div>
-      <div class="col-2">
-        {{ form.weight }}
-      </div>
-      <div class="col-2">
+        </select>
+      </td>
+      <td>{{ form.set_number }}</td>
+      <td>{{ form.set_count }}</td>
+      <td>{{ form.rep_count }}</td>
+      <td>{{ form.weight }}</td>
+      <td>
         {{ form.duration }}
-      </div>
+        {{ form.errors.duration }}
+      </td>
+    </tr>
+    
+  </table>
+
+  <div class="input-group-append">
+    <button class="btn btn-success add-form-row">+</button>
+  </div>
       
-        
-      <div class="input-group-append">
-        <button class="btn btn-success add-form-row">+</button>
-      </div>
-    </div>
-  <!-- </div> -->
-</div>
+  </div>
 {% endfor %}
 <div class="row spacer">
-  <div class="col-4 offset-2">
+  <div style="margin-top: 2em;">
     <button type="submit" class="btn btn-block btn-primary">Create</button>
   </div>
 </div>
 </form>
+</div>
 <br/><br/><br/><br/>
 
   <!-- use code below to check if numberTechniques() function works properly -->

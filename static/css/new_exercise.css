@@ -1,0 +1,7 @@
+.moves {
+  overflow: auto;
+  max-height: 500px;
+  display: table;
+  margin: 0 auto;
+}
+

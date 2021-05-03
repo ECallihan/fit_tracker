@@ -105,6 +105,11 @@
           {% endif %} 
           {% endfor %}
         </table>
+        {% if entry.entry_notes %}
+        <div>
+          {{ entry.entry_notes }}
+        </div>
+        {% endif %}
       </div>
       
         <div class="btn-group" role="group">
@@ -112,8 +117,7 @@
             {% csrf_token %}
             <input type="submit" class="btn btn-primary" value="Delete">
           </form>
-          <form action="{% url 'edit_entry' pk=entry.entry_id %}" method="POST">
-            {% csrf_token %}
+          <form action="{% url 'edit_entry' pk=entry.entry_id %}" method="GET">
             <input type="submit" class="btn btn-primary" value="Edit">
           </form>
           

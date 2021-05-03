@@ -57,7 +57,8 @@ def new_exercise(request):
         'technique_name', flat=True))
     return render(request, 'journal/new_exercise.html', {'form': form,
                                                          'message': message,
-                                                         'my_moves': my_moves})
+                                                         'my_moves': my_moves,
+                                                         'moves_query': my_moves_query})
 
 
 def new_entry(request):
@@ -85,11 +86,14 @@ def add_details(request):
 
 def create_entry_with_exercises(request):
     template_name = 'journal/entry.html'
+    techniques = Technique.objects.all().filter(user_id=request.user.id)
+    if not techniques:
+        return redirect(new_exercise)
     if request.method == 'GET':
         entryform = EntryForm(request.GET or None)
         exercise_set_formset = Exercise_SetFormset(
             queryset=Exercise_Set.objects.none())
-        techniques = Technique.objects.all().filter(user_id=request.user.id)
+
     elif request.method == 'POST':
 
         edited_post = request.POST.copy()
@@ -105,13 +109,19 @@ def create_entry_with_exercises(request):
                     entry_date=edited_post['entry_date']).delete()
             entry = entryform.save()
             for i in range(len(exercise_set_formset)):
+
                 exercise_set = exercise_set_formset[i].save(commit=False)
+
                 exercise_set.entry_id = entry
                 tech_id = request.POST.get(f'techniques{i}')
+                if not tech_id:
+                    continue
                 tech = Technique.objects.get(tech_id=tech_id)
                 exercise_set.technique_id = tech
+
                 exercise_set.save()
             return redirect(home)
+
     return render(request, template_name, {
         'entryform': entryform,
         'exercise_set_formset': exercise_set_formset,
@@ -120,17 +130,27 @@ def create_entry_with_exercises(request):
 
 
 def edit_entry(request, pk):
-    template_name = 'journal/entry.html'
+    template_name = 'journal/edit_entry.html'
+    entry_object = Entry.objects.get(entry_id=pk)
+    entry_date = entry_object.entry_date
+
     if request.method == 'GET':
-        return redirect(home)
-    elif request.method == 'POST':
+        entryform = EntryForm(request.GET or None)
+        exercise_set_formset = Exercise_SetFormset(
+            queryset=Exercise_Set.objects.none())
         techniques = Technique.objects.all().filter(user_id=request.user.id)
-        entry_object = Entry.objects.get(entry_id=pk)
-        entry_date = entry_object['entry_date']
+
+    elif request.method == 'POST':
         edited_post = request.POST.copy()
         edited_post['user_id'] = request.user.id
 
+        # entry_object = Entry.objects.get(entry_id=pk)
+
+        edited_post = request.POST.copy()
+        edited_post['user_id'] = request.user.id
+        edited_post['entry_date'] = entry_date
         entryform = EntryForm(edited_post)
+
         exercise_set_formset = Exercise_SetFormset(request.POST)
         if entryform.is_valid() and exercise_set_formset.is_valid():
             # save the entryform first so it can be referenced by the
@@ -143,6 +163,8 @@ def edit_entry(request, pk):
                 exercise_set = exercise_set_formset[i].save(commit=False)
                 exercise_set.entry_id = entry
                 tech_id = request.POST.get(f'techniques{i}')
+                if not tech_id:
+                    continue
                 tech = Technique.objects.get(tech_id=tech_id)
                 exercise_set.technique_id = tech
                 exercise_set.save()
@@ -151,4 +173,5 @@ def edit_entry(request, pk):
         'entryform': entryform,
         'exercise_set_formset': exercise_set_formset,
         'techniques': techniques,
+        'entry_date': entry_date
     })

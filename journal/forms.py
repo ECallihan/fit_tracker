@@ -24,9 +24,11 @@ class EntryForm(forms.ModelForm):
         fields = ('user_id', 'entry_date', 'entry_notes')
         widgets = {
             'entry_date': DateInput(),
-            'entry_notes': forms.TextInput(attrs={
+            'entry_notes': forms.Textarea(attrs={
                 'class': 'form-control',
-                'placeholder': 'Enter notes here...'
+                'placeholder': 'Enter notes here...',
+                'rows': 3,
+                'cols': 30
             })
 
         }
@@ -36,5 +38,6 @@ Exercise_SetFormset = modelformset_factory(
     Exercise_Set,
     fields=('set_number', 'set_count', 'rep_count', 'weight', 'duration'),
     extra=1,
+
 
 )

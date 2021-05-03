@@ -1,11 +1,17 @@
 {% extends 'base.html' %} 
+{% load static %}
 
 {% block title %}Add An Exercise{% endblock %} 
 
 {% block head %} 
-<script type="text/javascript">
-  
-</script>
+  <link rel="stylesheet" href="{% static 'css/new_exercise.css' %}">
+  <style>
+    body {
+      background-image: url("{% static 'images/pull-up-2.jpg' %}");
+      background-repeat: no-repeat;
+      background-size: 100%;
+    }
+  </style>
 {% endblock %} 
 
 {% block header %}
@@ -13,33 +19,69 @@
 
 {% block content %}
 
+<div class="center">
+  <h1 class="text-center">Enter New Exercise</h1>
+</div>
 
+<div style="width: 100%;">
+  <div style="width: 50%; float:left">
+    <form action="" method="POST">
+      {% csrf_token %} 
+    
+      <table class="table table-borderless">
+        <tr>
+          <td>Name:</td>
+          <td>{{ form.technique_name }}</td>
+        </tr>
+        <tr>
+          <td>Strength:</td>
+          <td>{{ form.for_strength }}</td>
+        </tr>
+        <tr>
+          <td>Cardio:</td>
+          <td>{{ form.for_cardio }}</td>
+        </tr>
+        <tr>
+          <td>Flexibility:</td>
+          <td>{{ form.for_flexibility }}</td>
+        </tr>
+        <tr>
+          <td>Timed:</td>
+          <td>{{ form.has_time }}</td>
+        </tr>
+        <tr>
+          <td>Weighted:</td>
+          <td>{{ form.has_resistance }}</td>
+        </tr>
+        <tr>
+          <td>Reps:</td>
+          <td>{{ form.has_reps }}</td>
+        </tr>
+      </table>
+    
+      <button class="btn btn-primary" type="submit" id="sendform">Submit</button> 
+    </form>
+  </div>
+  <div style="margin-left: 50%;">
 
-<h1>New Exercise</h1>
-<form action="" method="POST">
-  {% csrf_token %} 
-  name: {{ form.technique_name }}
-  strength: {{ form.for_strength }}
-  cardio: {{ form.for_cardio }}
-  flexibility: {{ form.for_flexibility }}
-  time: {{ form.has_time }}
-  resistance: {{ form.has_resistance }}
-  reps: {{ form.has_reps }}
-  <button class="btn btn-primary" type="submit" id="sendform">Submit</button> 
-</form>
+    <div class="moves">
+      <p>
+      Your Exercises:
+    </p>
+      <div class="moves">
+        <ul>
+          {% for move in moves_query %}
+            <li>{{ move.technique_name }}</li>
+          {% endfor %} 
+        </ul>
+      </div>
+    
+    </div>
 
-<p>
-  {{ message }}
-</p>
-<p>
-  your available moves:
-</p>
-<ul>
-  {% for move in my_moves %}
-    <li>{{ move }}</li>
-  {% endfor %} 
-</ul>
+    
 
+  </div>
+</div>
 
 {% endblock %} 
 
