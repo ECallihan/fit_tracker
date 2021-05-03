@@ -49,7 +49,8 @@ def new_exercise(request):
                 'technique_name', flat=True))
             return render(request, 'journal/new_exercise.html', {'form': form,
                                                                  'message': message,
-                                                                 'my_moves': my_moves})
+                                                                 'my_moves': my_moves,
+                                                                 'moves_query': my_moves_query})
 
     form = TechniqueForm()
     my_moves_query = Technique.objects.all().filter(user_id_id=request.user.id)
