@@ -18,6 +18,6 @@ def signUp(request):
                                     )
             login(request, new_user)
             return render(request, 'home.html', {})
-    else:
-        form = CustomUserCreationForm
-        return render(request, 'registration/signup.html', {'form': form})
+
+    form = CustomUserCreationForm
+    return render(request, 'registration/signup.html', {'form': form})
